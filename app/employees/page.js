@@ -1,8 +1,8 @@
-export default function Home() {
+export default function Employees() {
   return (
     <>
       <p className="text-gray-700 text-3xl mb-16 font-bold pl-[50px] pt-[12px]">
-        Dashboard
+        Employees
       </p>
 
       <div className="grid lg:grid-cols-3 gap-5 mb-16">
