@@ -1,9 +1,18 @@
 "use client";
 
 import { useState, useEffect, Fragment } from "react";
+import { Transition } from "@headlessui/react";
+import { UserContext } from "../lib/context";
+import EmployeContext, {
+  EmployeeContextProvider,
+} from "../lib/employeeContext";
+import { useUserData } from "../lib/hooks";
+import TransactionContext, {
+  TransactionContextProvider,
+} from "../lib/transactionContext";
+
 import SideBar from "../components/SideBar";
 import TopBar from "../components/TopBar";
-import { Transition } from "@headlessui/react";
 
 import "./globals.css";
 
@@ -15,6 +24,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
   const [showNav, setShowNav] = useState(true);
   const [isMobile, setIsMobile] = useState(false);
+  const userData = useUserData();
+  const employee = [];
 
   const handleSize = () => {
     if (innerWidth <= 640) {
@@ -39,26 +50,40 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <main>
-          <TopBar showNav={showNav} setShowNav={setShowNav} />
-          <Transition
-            as={Fragment}
-            show={showNav}
-            enter="transform transition duration-[400ms]"
-            enterFrom="-translate-x-full"
-            enterTo="translate-x-0"
-            leave="transform duration-[400ms] transition ease-in-out"
-            leaveFrom="translate-x-0"
-            leaveTo="-translate-x-full"
+          <UserContext.Provider
+            value={{ user: userData.user, company: userData.company }}
           >
-            <SideBar showNav={showNav} />
-          </Transition>
-          <main
-            className={`pt-116 transition-all duration-[400ms] ${
-              showNav && !isMobile ? "pl-56" : ""
-            }`}
-          >
-            <div className="px-4 md:px-16">{children}</div>
-          </main>
+            <main>
+              <TransactionContextProvider value={[]}>
+                <main>
+                  <EmployeeContextProvider value={employee}>
+                    <main>
+                      <TopBar showNav={showNav} setShowNav={setShowNav} />
+                      <Transition
+                        as={Fragment}
+                        show={showNav}
+                        enter="transform transition duration-[400ms]"
+                        enterFrom="-translate-x-full"
+                        enterTo="translate-x-0"
+                        leave="transform duration-[400ms] transition ease-in-out"
+                        leaveFrom="translate-x-0"
+                        leaveTo="-translate-x-full"
+                      >
+                        <SideBar showNav={showNav} />
+                      </Transition>
+                      <main
+                        className={`pt-116 transition-all duration-[400ms] ${
+                          showNav && !isMobile ? "pl-56" : ""
+                        }`}
+                      >
+                        <div className="px-4 md:px-16">{children}</div>
+                      </main>
+                    </main>
+                  </EmployeeContextProvider>
+                </main>
+              </TransactionContextProvider>
+            </main>
+          </UserContext.Provider>
         </main>
       </body>
     </html>
