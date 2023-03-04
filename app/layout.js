@@ -1,7 +1,12 @@
 "use client";
 
-import { useState, useEffect, Fragment } from "react";
-import { Transition } from "@headlessui/react";
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["latin"],
+});
+
 import { UserContext } from "../lib/context";
 import EmployeContext, {
   EmployeeContextProvider,
@@ -11,9 +16,6 @@ import TransactionContext, {
   TransactionContextProvider,
 } from "../lib/transactionContext";
 
-import SideBar from "../components/SideBar";
-import TopBar from "../components/TopBar";
-
 import "./globals.css";
 
 export const metadata = {
@@ -22,29 +24,8 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  const [showNav, setShowNav] = useState(true);
-  const [isMobile, setIsMobile] = useState(false);
   const userData = useUserData();
   const employee = [];
-
-  const handleSize = () => {
-    if (innerWidth <= 640) {
-      setShowNav(false);
-      setIsMobile(true);
-    } else {
-      setShowNav(true);
-      setIsMobile(false);
-    }
-  };
-
-  useEffect(() => {
-    if (typeof window != undefined) {
-      addEventListener("resize", handleSize);
-    }
-    return () => {
-      removeEventListener("resize", handleSize);
-    };
-  }, []);
 
   return (
     <html lang="en">
@@ -57,28 +38,7 @@ export default function RootLayout({ children }) {
               <TransactionContextProvider value={[]}>
                 <main>
                   <EmployeeContextProvider value={employee}>
-                    <main>
-                      <TopBar showNav={showNav} setShowNav={setShowNav} />
-                      <Transition
-                        as={Fragment}
-                        show={showNav}
-                        enter="transform transition duration-[400ms]"
-                        enterFrom="-translate-x-full"
-                        enterTo="translate-x-0"
-                        leave="transform duration-[400ms] transition ease-in-out"
-                        leaveFrom="translate-x-0"
-                        leaveTo="-translate-x-full"
-                      >
-                        <SideBar showNav={showNav} />
-                      </Transition>
-                      <main
-                        className={`pt-116 transition-all duration-[400ms] ${
-                          showNav && !isMobile ? "pl-56" : ""
-                        }`}
-                      >
-                        <div className="px-4 md:px-16">{children}</div>
-                      </main>
-                    </main>
+                    <main className={poppins.className}>{children}</main>
                   </EmployeeContextProvider>
                 </main>
               </TransactionContextProvider>

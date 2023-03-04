@@ -1,9 +1,16 @@
+"use client";
+
+import { useUserData } from "../../lib/hooks";
+
 export default function Login() {
   return (
-    <>
-      <p className="text-gray-700 text-3xl mb-16 font-bold pl-[50px] pt-[12px]">
-        Login
-      </p>
-    </>
+    <div className="grid grid-cols-1 sm:grid-cols-2">
+      <div>the left side</div>
+      <div>
+        <form>
+          <h2>Sign In</h2>
+        </form>
+      </div>
+    </div>
   );
 }

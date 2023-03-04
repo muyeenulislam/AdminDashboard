@@ -1,3 +1,13 @@
+export const metadata = {
+  title: "Employees",
+  icons: {
+    icon: [
+      { url: "/q7ypw0Q/ezwage-logo.jpg" },
+      new URL("/q7ypw0Q/ezwage-logo.jpg", "https://i.ibb.co"),
+    ],
+  },
+};
+
 export default function Employees() {
   return (
     <>

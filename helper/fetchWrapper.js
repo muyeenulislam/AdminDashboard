@@ -1,4 +1,4 @@
-import router from "next/router";
+import { useRouter } from "next/navigation";
 import { userService } from "../services";
 
 export const fetchWrapper = {
@@ -163,6 +163,7 @@ function requestHeaders(url) {
 }
 
 function handleResponse(response) {
+  const router = useRouter();
   return response.text().then((text) => {
     const data = text && isJsonString(text) && JSON.parse(text);
     if (data.code === 401) {

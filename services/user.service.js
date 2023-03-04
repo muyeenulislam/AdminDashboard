@@ -1,7 +1,7 @@
 import { BehaviorSubject } from "rxjs";
 import CryptoJS from "crypto-js";
 import { fetchWrapper } from "../helper";
-import router from "next/router";
+import { useRouter } from "next/navigation";
 
 const baseUrl = process.env.BASE_URI;
 const userSubject = new BehaviorSubject(getUserDetails());
@@ -60,6 +60,7 @@ async function login(username, password, recaptcha) {
 }
 
 function checkUserValidation(user, navigation) {
+  const router = useRouter();
   for (let i = 0; i < user.roles.features[0].features.length; i++) {
     if (user.roles.features[0].features[i].name === navigation) {
       return true;
@@ -71,6 +72,7 @@ function checkUserValidation(user, navigation) {
 }
 
 function logout() {
+  const router = useRouter();
   localStorage.removeItem("user");
   localStorage.removeItem("company");
   userSubject.next(null);
