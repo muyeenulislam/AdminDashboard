@@ -1,16 +1,15 @@
-"use client";
+import LoginPage from "@/components/login/login";
 
-import { useUserData } from "../../lib/hooks";
+export const metadata = {
+  title: "EZ Wage Login",
+  icons: {
+    icon: [
+      { url: "/q7ypw0Q/ezwage-logo.jpg" },
+      new URL("/q7ypw0Q/ezwage-logo.jpg", "https://i.ibb.co"),
+    ],
+  },
+};
 
 export default function Login() {
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2">
-      <div>the left side</div>
-      <div>
-        <form>
-          <h2>Sign In</h2>
-        </form>
-      </div>
-    </div>
-  );
+  return <LoginPage />;
 }
