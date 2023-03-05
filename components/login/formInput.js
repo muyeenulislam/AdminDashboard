@@ -4,9 +4,8 @@ import { useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faSpinner } from "@fortawesome/free-solid-svg-icons";
-import modal from "../modal/modal";
 
-export default function FormInput({ email, password, recaptcha, type }) {
+export default function FormInput({ email, password, recaptcha, type, modal }) {
   const [isRecaptcha, setRecaptcha] = useState(false);
   const [isRecaptchaValue, setRecaptchaValue] = useState("");
   const [isValidRecaptcha, setValidRecaptcha] = useState(false);
@@ -20,8 +19,6 @@ export default function FormInput({ email, password, recaptcha, type }) {
   const [checkPassword, setCheckPassword] = useState(false);
 
   const [isLoading, setLoading] = useState(false);
-
-  const [isModalVisible, setModalVisible] = useState(false);
 
   const emailValidation = (e) => {
     setEmail("");
@@ -62,23 +59,23 @@ export default function FormInput({ email, password, recaptcha, type }) {
   const checkValues = () => {
     setLoading(true);
 
-    // if (!isEmail) {
-    //   setValidEmail("Email is required");
-    // }
-    // if (!isPassword) {
-    //   setValidPassword("Password is required");
-    // }
-    // if (!isRecaptcha) {
-    //   setValidRecaptcha("recaptcha is required");
-    // }
-    setModalVisible(true);
+    if (!isEmail) {
+      setValidEmail("Email is required");
+    }
+    if (!isPassword) {
+      setValidPassword("Password is required");
+    }
+    if (!isRecaptcha) {
+      setValidRecaptcha("recaptcha is required");
+    }
+    modal(true);
     setLoading(false);
   };
   return (
-    <div>
+    <div className="w-[300px] md:w-[500px]">
       <form className="flex justify-center flex-col">
         {email === true ? (
-          <div>
+          <div className="mb-4">
             <input
               type="email"
               className="w-full p-3 border border-gray-300 rounded-3xl placeholder:font-sans placeholder:font-light mb-2 focus:outline-none focus:ring focus:ring-[#0EA8E1]"
@@ -94,7 +91,7 @@ export default function FormInput({ email, password, recaptcha, type }) {
           ""
         )}
         {password === true ? (
-          <div>
+          <div className="mb-4">
             <input
               type="password"
               className="w-full p-3 border border-gray-300 rounded-3xl placeholder:font-sans placeholder:font-light focus:outline-none focus:ring focus:ring-[#0EA8E1]"
@@ -110,7 +107,7 @@ export default function FormInput({ email, password, recaptcha, type }) {
           ""
         )}
         {recaptcha === true ? (
-          <div className="m-4">
+          <div className="mb-4">
             <ReCAPTCHA
               sitekey="6LfMrlckAAAAAGoHRYcUVwgks2KBwBalcrz5x1y8"
               onChange={(e) => {
@@ -126,8 +123,11 @@ export default function FormInput({ email, password, recaptcha, type }) {
           ""
         )}
         <button
-          className="w-full md:w-auto flex justify-center items-center p-2 space-x-4 text-white rounded-full px-9 bg-[#0EA8E1] shadow-lg hover:bg-opacity-90 hover:shadow-lg border-none transition hover:-translate-y-0.5 duration-150"
-          onClick={checkValues}
+          className="w-full md:w-auto flex justify-center items-center p-3 space-x-4 text-white rounded-full px-9 bg-[#0EA8E1] shadow-lg hover:bg-opacity-90 hover:shadow-lg border-none transition hover:-translate-y-0.5 duration-150"
+          onClick={(e) => {
+            e.preventDefault();
+            checkValues();
+          }}
         >
           <span>{type}</span>
           {isLoading === true ? (
@@ -141,8 +141,6 @@ export default function FormInput({ email, password, recaptcha, type }) {
       <div className="font-sm text-[#0EA8E1] mr-4 ml-4 mt-4">
         Forgot password?
       </div>
-
-      <modal title="Email or Password Incorrect" visible={true} ok="Ok" />
     </div>
   );
 }
