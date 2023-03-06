@@ -1,5 +1,6 @@
 import { useRouter } from "next/navigation";
 import { userService } from "../services";
+import axios from "axios";
 
 export const fetchWrapper = {
   get,
@@ -25,12 +26,12 @@ function get(url) {
   }
 }
 
-function post(url, body) {
+async function post(url, body) {
   try {
-    let bodyContent = JSON.stringify(body);
-    if (body.data) {
-      bodyContent = JSON.stringify(body.data);
-    }
+    // let bodyContent = JSON.stringify(body);
+    // if (body.data) {
+    //   bodyContent = JSON.stringify(body.data);
+    // }
 
     let headers = {
       "Content-Type": "application/json",
@@ -47,17 +48,20 @@ function post(url, body) {
         ...authHeader(url),
       };
     }
+    const data = await axios.post(url, body, headers);
+    const result = data.data.results;
+    return result;
 
-    const requestOptions = {
-      method: "POST",
-      headers: headers,
-      body: bodyContent,
-    };
-    return fetch(url, requestOptions)
-      .then(handleResponse)
-      .catch(function (err) {
-        console.error("Error: " + err.message);
-      });
+    // const requestOptions = {
+    //   method: "POST",
+    //   headers: headers,
+    //   body: body,
+    // };
+    // return fetch(url, requestOptions)
+    //   .then((handleResponse) => console.log(handleResponse))
+    //   .catch(function (err) {
+    //     console.error("Error: " + err.message);
+    //   });
   } catch (e) {
     console.error(e.getMessage);
     return "";

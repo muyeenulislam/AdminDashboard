@@ -1,13 +1,80 @@
-import { Fragment } from "react";
+"use client";
+
+import { Fragment, useContext, useEffect, useState } from "react";
+import { useRouter, redirect } from "next/navigation";
+import Link from "next/link";
+import { BehaviorSubject } from "rxjs";
+
+import { UserContext } from "@/lib/context";
+
+import { Menu, Transition, Popover } from "@headlessui/react";
 import {
   Bars3CenterLeftIcon,
   ChevronDownIcon,
   Cog8ToothIcon,
 } from "@heroicons/react/24/solid";
-import { Menu, Transition, Popover } from "@headlessui/react";
-import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignOut } from "@fortawesome/free-solid-svg-icons";
 
 export default function TopBar({ showNav, setShowNav }) {
+  const router = useRouter();
+
+  const { user, company } = useContext(UserContext);
+
+  const [userImage, setUserImage] = useState("");
+  const [username, setUsername] = useState("");
+
+  const userSubject = new BehaviorSubject(getUserDetails());
+  const companySubject = new BehaviorSubject(getCompanyDetails());
+
+  useEffect(() => {
+    try {
+      if (user.id) {
+        let uImage = "/images/person.png";
+        if (user.user_img) {
+          uImage = process.env.FILE_BASE_URI + "" + user.user_img;
+        }
+        setUserImage(uImage);
+      }
+    } catch (error) {}
+  }, []);
+
+  setTimeout(function () {
+    const u = user != null ? user.first_name + " " + user.last_name : "";
+    setUsername(u);
+  }, 100);
+
+  function logout() {
+    localStorage.removeItem("user");
+    localStorage.removeItem("company");
+    userSubject.next(null);
+    companySubject.next(null);
+
+    redirect("/login");
+  }
+
+  function getUserDetails() {
+    try {
+      return (
+        typeof window !== "undefined" &&
+        JSON.parse(localStorage.getItem("user"))
+      );
+    } catch (err) {
+      console.error("Error:" + err.console);
+    }
+  }
+
+  function getCompanyDetails() {
+    try {
+      return (
+        typeof window !== "undefined" &&
+        JSON.parse(localStorage.getItem("company"))
+      );
+    } catch (err) {
+      message.error("Error:" + err.message);
+    }
+  }
+
   return (
     <div
       className={`fixed w-full h-16 bg-white flex justify-between items-center transition-all duration-[400ms] ${
@@ -26,13 +93,13 @@ export default function TopBar({ showNav, setShowNav }) {
             <Menu.Button className="inline-flex w-full justify-center items-center">
               <picture>
                 <img
-                  src="/ezwage.png"
-                  className="rounded-full h-8 md:mr-4 border-2 border-white shadow-sm"
+                  src={userImage}
+                  className="rounded-full h-8 w-8 md:mr-4 border-2 border-white shadow-sm"
                   alt="profile picture"
                 />
               </picture>
               <span className="hidden md:block font-medium text-gray-700">
-                Md. Muyeen - Ul - Islam
+                {username}
               </span>
               <ChevronDownIcon className="ml-2 h-4 w-4 text-gray-700" />
             </Menu.Button>
@@ -46,12 +113,10 @@ export default function TopBar({ showNav, setShowNav }) {
             leaveFrom="transform scale-100"
             leaveTo="transform scale-95"
           >
-            <Menu.Items className="absolute right-0 w-56 z-50 mt-2 origin-top-right bg-white rounded shadow-sm">
+            <Menu.Items className="absolute right-0 w-56 z-50 mt-2 origin-top-right bg-white rounded shadow-lg">
               <div className="p-1">
                 <Menu.Item>
-                  <p className="text-sm pl-2 pr-4 text-center">
-                    Md. Muyeen - Ul - Islam
-                  </p>
+                  <p className="text-sm p-4 text-center">{username}</p>
                 </Menu.Item>
                 <Menu.Item>
                   <Link
@@ -60,6 +125,20 @@ export default function TopBar({ showNav, setShowNav }) {
                   >
                     <Cog8ToothIcon className="h-4 w-4 mr-2" />
                     Settings
+                  </Link>
+                </Menu.Item>
+                <Menu.Item>
+                  <Link
+                    href=""
+                    onClick={logout}
+                    className="flex  hover:bg-[#4fa2e2] hover:text-white text-gray-700 rounded p-2 text-sm group transition-colors items-center"
+                  >
+                    {/* <LogoutSvg className="h-4 w-4 mr-2 text-black" /> */}
+                    <FontAwesomeIcon
+                      icon={faSignOut}
+                      className="h-4 w-4 mr-2"
+                    />
+                    Logout
                   </Link>
                 </Menu.Item>
               </div>

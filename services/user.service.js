@@ -23,6 +23,7 @@ export const userService = {
   getAll,
   getById,
   update,
+  getUserDetails,
   delete: _delete,
 };
 
@@ -114,7 +115,9 @@ function _delete(id) {
 
 function getUserDetails() {
   try {
-    return process.browser && JSON.parse(localStorage.getItem("user"));
+    return (
+      typeof window !== "undefined" && JSON.parse(localStorage.getItem("user"))
+    );
   } catch (err) {
     console.error("Error:" + err.message);
   }
