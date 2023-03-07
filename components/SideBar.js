@@ -7,13 +7,17 @@ import Link from "next/link";
 import { userService } from "@/services";
 import { UserContext } from "@/lib/context";
 import { features } from "@/helper/constants";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  HomeSvg,
-  TransactionSvg,
-  SupportSvg,
-  EmpSvg,
-  SettingSvg,
-} from "@/icons/icons";
+  faBangladeshiTakaSign,
+  faChartSimple,
+  faBuildingUser,
+  faGear,
+  faPhoneVolume,
+  faUser,
+  faHouse,
+} from "@fortawesome/free-solid-svg-icons";
 
 let error_displayed = 0;
 
@@ -50,7 +54,6 @@ const SideBar = forwardRef(({ showNav }, ref) => {
     if (!user) {
       router.push("/login");
     } else if (user.roles) {
-      // setCompanyLogo(`${process.env.FILE_BASE_URI}${user.companyLogo}`);
       let userMenu = user.roles.features;
       if (userMenu.length !== 0) {
         // Creating Options list for Bank List Dropdown
@@ -71,7 +74,10 @@ const SideBar = forwardRef(({ showNav }, ref) => {
                       }`}
                     >
                       <div className="mr-2">
-                        <TransactionSvg className="h-5 w-5" />
+                        <FontAwesomeIcon
+                          icon={faBangladeshiTakaSign}
+                          className="h-5 w-5 text-[30px]"
+                        />
                       </div>
                       <div>
                         <p>{userMenu[i].features[m].name}</p>
@@ -90,7 +96,10 @@ const SideBar = forwardRef(({ showNav }, ref) => {
                       }`}
                     >
                       <div className="mr-2">
-                        <HomeSvg className="h-5 w-5" />
+                        <FontAwesomeIcon
+                          icon={faBuildingUser}
+                          className="h-5 w-5 text-[30px]"
+                        />
                       </div>
                       <div>
                         <p>{userMenu[i].features[m].name}</p>
@@ -109,7 +118,10 @@ const SideBar = forwardRef(({ showNav }, ref) => {
                       }`}
                     >
                       <div className="mr-2">
-                        <EmpSvg className="h-5 w-5" />
+                        <FontAwesomeIcon
+                          icon={faUser}
+                          className="h-5 w-5 text-[30px]"
+                        />
                       </div>
                       <div>
                         <p>{userMenu[i].features[m].name}</p>
@@ -128,7 +140,10 @@ const SideBar = forwardRef(({ showNav }, ref) => {
                       }`}
                     >
                       <div className="mr-2">
-                        <HomeSvg className="h-5 w-5" />
+                        <FontAwesomeIcon
+                          icon={faHouse}
+                          className="h-5 w-5 text-[30px]"
+                        />
                       </div>
                       <div>
                         <p>{userMenu[i].features[m].name}</p>
@@ -147,7 +162,10 @@ const SideBar = forwardRef(({ showNav }, ref) => {
                       }`}
                     >
                       <div className="mr-2">
-                        <SupportSvg className="h-5 w-5" />
+                        <FontAwesomeIcon
+                          icon={faPhoneVolume}
+                          className="h-5 w-5 text-[30px]"
+                        />
                       </div>
                       <div>
                         <p>{userMenu[i].features[m].name}</p>
@@ -166,7 +184,10 @@ const SideBar = forwardRef(({ showNav }, ref) => {
                       }`}
                     >
                       <div className="mr-2">
-                        <SettingSvg className="h-5 w-5" />
+                        <FontAwesomeIcon
+                          icon={faGear}
+                          className="h-5 w-5 text-[30px]"
+                        />
                       </div>
                       <div>
                         <p>{userMenu[i].features[m].name}</p>
@@ -185,7 +206,10 @@ const SideBar = forwardRef(({ showNav }, ref) => {
                       }`}
                     >
                       <div className="mr-2">
-                        <SettingSvg className="h-5 w-5" />
+                        <FontAwesomeIcon
+                          icon={faChartSimple}
+                          className="h-5 w-5 text-[30px]"
+                        />
                       </div>
                       <div>
                         <p>{userMenu[i].features[m].name}</p>
@@ -206,7 +230,10 @@ const SideBar = forwardRef(({ showNav }, ref) => {
                       }`}
                     >
                       <div className="mr-2">
-                        <TransactionSvg className="h-5 w-5" />
+                        <FontAwesomeIcon
+                          icon={faBangladeshiTakaSign}
+                          className="h-5 w-5 text-[30px]"
+                        />
                       </div>
                       <div>
                         <p>{userMenu[i].features[m].name}</p>
@@ -227,7 +254,10 @@ const SideBar = forwardRef(({ showNav }, ref) => {
                       }`}
                     >
                       <div className="mr-2">
-                        <TransactionSvg className="h-5 w-5" />
+                        <FontAwesomeIcon
+                          icon={faBangladeshiTakaSign}
+                          className="h-5 w-5 text-[30px]"
+                        />
                       </div>
                       <div>
                         {/* <p>{userMenu[i].features[m].name}</p> */}

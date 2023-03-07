@@ -32,19 +32,19 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body>
-        <main>
-          <UserContext.Provider
-            value={{ user: userData.user, company: userData.company }}
-          >
-            <TransactionContextProvider value={[]}>
-              <EmployeeContextProvider value={employee}>
-                <Suspense fallback={<Loading />}>
-                  <main className={poppins.className}>{children}</main>
-                </Suspense>
-              </EmployeeContextProvider>
-            </TransactionContextProvider>
-          </UserContext.Provider>
-        </main>
+        {/* <main> */}
+        <UserContext.Provider
+          value={{ user: userData.user, company: userData.company }}
+        >
+          <TransactionContextProvider value={[]}>
+            <EmployeeContextProvider value={employee}>
+              <Suspense fallback={<Loading />}>
+                <main className={poppins.className}>{children}</main>
+              </Suspense>
+            </EmployeeContextProvider>
+          </TransactionContextProvider>
+        </UserContext.Provider>
+        {/* </main> */}
       </body>
     </html>
   );
