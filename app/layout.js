@@ -11,12 +11,14 @@ import { UserContext } from "../lib/context";
 import { EmployeeContextProvider } from "../lib/employeeContext";
 import { useUserData } from "../lib/hooks";
 import { TransactionContextProvider } from "../lib/transactionContext";
+import Loading from "./loading";
 
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 config.autoAddCss = false;
 
 import "./globals.css";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "Ezwage",
@@ -34,15 +36,13 @@ export default function RootLayout({ children }) {
           <UserContext.Provider
             value={{ user: userData.user, company: userData.company }}
           >
-            <main>
-              <TransactionContextProvider value={[]}>
-                <main>
-                  <EmployeeContextProvider value={employee}>
-                    <main className={poppins.className}>{children}</main>
-                  </EmployeeContextProvider>
-                </main>
-              </TransactionContextProvider>
-            </main>
+            <TransactionContextProvider value={[]}>
+              <EmployeeContextProvider value={employee}>
+                <Suspense fallback={<Loading />}>
+                  <main className={poppins.className}>{children}</main>
+                </Suspense>
+              </EmployeeContextProvider>
+            </TransactionContextProvider>
           </UserContext.Provider>
         </main>
       </body>

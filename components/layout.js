@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect, Fragment, Suspense } from "react";
 import { Transition } from "@headlessui/react";
 
 import SideBar from "./SideBar";
 import TopBar from "./TopBar";
+import Loading from "@/app/loading";
 
 export default function DefaultLayout({ children }) {
   const [showNav, setShowNav] = useState(true);
@@ -44,13 +45,15 @@ export default function DefaultLayout({ children }) {
       >
         <SideBar showNav={showNav} />
       </Transition>
-      <main
-        className={`pt-116 transition-all duration-[400ms] ${
-          showNav && !isMobile ? "pl-60" : ""
-        }`}
-      >
-        <div className="px-4 md:px-16">{children}</div>
-      </main>
+      <Suspense fallback={<Loading />}>
+        <main
+          className={`pt-116 transition-all duration-[400ms] ${
+            showNav && !isMobile ? "pl-60" : ""
+          }`}
+        >
+          <div className="px-4 md:px-16">{children}</div>
+        </main>
+      </Suspense>
     </main>
   );
 }
