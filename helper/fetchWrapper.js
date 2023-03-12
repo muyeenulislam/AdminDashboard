@@ -1,6 +1,4 @@
-import { useRouter } from "next/navigation";
 import { userService } from "../services";
-import axios from "axios";
 
 export const fetchWrapper = {
   get,
@@ -10,7 +8,7 @@ export const fetchWrapper = {
   delete: _delete,
 };
 
-function get(url) {
+async function get(url) {
   try {
     const requestOptions = {
       method: "GET",
@@ -28,10 +26,10 @@ function get(url) {
 
 async function post(url, body) {
   try {
-    // let bodyContent = JSON.stringify(body);
-    // if (body.data) {
-    //   bodyContent = JSON.stringify(body.data);
-    // }
+    let bodyContent = JSON.stringify(body);
+    if (body.data) {
+      bodyContent = JSON.stringify(body.data);
+    }
 
     let headers = {
       "Content-Type": "application/json",
@@ -48,20 +46,20 @@ async function post(url, body) {
         ...authHeader(url),
       };
     }
-    const data = await axios.post(url, body, headers);
-    const result = data.data.results;
-    return result;
+    // const data = await axios.post(url, body, headers);
+    // const result = data.data.results;
+    // return result;
 
-    // const requestOptions = {
-    //   method: "POST",
-    //   headers: headers,
-    //   body: body,
-    // };
-    // return fetch(url, requestOptions)
-    //   .then((handleResponse) => console.log(handleResponse))
-    //   .catch(function (err) {
-    //     console.error("Error: " + err.message);
-    //   });
+    const requestOptions = {
+      method: "POST",
+      headers: headers,
+      body: bodyContent,
+    };
+    return fetch(url, requestOptions)
+      .then(handleResponse)
+      .catch(function (err) {
+        console.error("Error: " + err.message);
+      });
   } catch (e) {
     console.error(e.getMessage);
     return "";
@@ -167,12 +165,12 @@ function requestHeaders(url) {
 }
 
 function handleResponse(response) {
-  const router = useRouter();
+  // const router = useRouter();
   return response.text().then((text) => {
     const data = text && isJsonString(text) && JSON.parse(text);
     if (data.code === 401) {
       userService.logout();
-      router.push("/login");
+      // router.push("/login");
     } else if (!response.ok) {
       if ([401].includes(response.status) && userService.userValue) {
         // auto logout if 401 Unauthorized or 403 Forbidden response returned from api

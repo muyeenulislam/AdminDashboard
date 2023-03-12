@@ -35,9 +35,9 @@ export default function Modal({
                 )}
 
                 {description ? (
-                  <div className="relative p-6 flex-auto">
+                  <div className="relative p-3 flex-auto">
                     <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                      {title}
+                      {description}
                     </p>
                   </div>
                 ) : (
