@@ -1,13 +1,12 @@
 "use client";
 import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/navigation";
-
+import { message } from "antd";
 import TransactionContext from "@/lib/transactionContext";
 import { useUserData } from "@/lib/hooks";
 import { fetchWrapper } from "@/helper";
-import Modal from "../modal/modal";
 import CardLineChart from "../chart";
-import TableElement from "../table";
+import TableElement from "../table/table";
 
 let is_error_displayed = 0;
 
@@ -16,26 +15,26 @@ const columns = [
     title: "#",
     dataIndex: "id",
     key: "id",
-    width: "4%",
+    width: 60,
   },
   {
     title: "Transaction ID",
     dataIndex: "transactionId",
     key: "transactionId",
     render: (transactionId) => transactionId,
-    width: "5%",
+    width: 220,
   },
   {
     title: "Employee Name",
     dataIndex: "employee_name",
     key: "employee_name",
-    width: "8%",
+    width: 150,
   },
   {
     title: "Amount (BDT)",
     dataIndex: "amount",
     key: "amount",
-    width: "5%",
+    width: 110,
     render: (amount) =>
       Number(amount)
         .toFixed(2)
@@ -45,14 +44,14 @@ const columns = [
     title: "Date",
     dataIndex: "date",
     key: "date",
-    width: "6%",
+    width: 120,
   },
 
   {
     title: "Time",
     key: "time",
     dataIndex: "time",
-    width: "5%",
+    width: 120,
   },
 ];
 
@@ -245,6 +244,13 @@ export default function Dashboard() {
     getTransaction(size, 1);
   };
 
+  if (errorTrue && is_error_displayed === 0) {
+    is_error_displayed = 1;
+    message.error(
+      "Session expired. Please try refreshing page. If error remains please contact with support team or Email us this error."
+    );
+  }
+
   // get transaction of last 12 months
   const getTransactionHistory = () => {
     fetchWrapper
@@ -334,18 +340,6 @@ export default function Dashboard() {
 
   return (
     <>
-      {/* if session expired */}
-      {errorTrue && is_error_displayed === 0 ? (
-        <Modal
-          title="session expired"
-          description="Session expired. Please try refreshing page. If error remains please contact with support team or Email us this error."
-          visibility={true}
-          ok="Okay"
-        />
-      ) : (
-        ""
-      )}
-
       {/* if there is a valid user logged in */}
       {validUser === true ? (
         <div>
@@ -436,6 +430,9 @@ export default function Dashboard() {
           {/* end of the data chart */}
 
           {/* table component */}
+          <p className="text-gray-700 text-xl my-10 font-bold">
+            Recent Transactions
+          </p>
           <div>
             <TableElement
               id="id"
@@ -449,7 +446,7 @@ export default function Dashboard() {
               pagination={true}
               pageLimit={pageLimit}
               nextPage={nextPage}
-              width={1000}
+              width={900}
             />
           </div>
 

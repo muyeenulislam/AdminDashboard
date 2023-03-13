@@ -1,0 +1,9 @@
+.ant-table-wrapper {
+  z-index: -10;
+}
+
+.ant-table-thead > tr > th {
+  color: white !important;
+  background: #0598f3 !important;
+  text-align: center;
+}

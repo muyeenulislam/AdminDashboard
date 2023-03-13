@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useEffect } from "react";
+// import React, { useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLessThan, faGreaterThan } from "@fortawesome/free-solid-svg-icons";
 
 export default function Pagination(props) {
   const pageSizing = [25, 50, 100, 200, 500];
   let array = [];
-  useEffect(() => {}, []);
+  // useEffect(() => {}, []);
 
   const next = async () => {
     props.nextPage();
@@ -73,7 +73,7 @@ export default function Pagination(props) {
 
         <div className="flex justify-center">
           <button
-            className="border border-solid border-blue-500 m-2 px-3 py-2 rounded-full text-[#0d6efd] hover:text-white hover:bg-[#0d6efd]  transition-all"
+            className="border border-solid border-blue-500 m-2 px-3 py-1 rounded-full text-[#0d6efd] hover:text-white hover:bg-[#0d6efd]  transition-all"
             disabled={props.pageNumber === 1 ? true : false}
             onClick={prev}
           >
@@ -85,7 +85,7 @@ export default function Pagination(props) {
               return pageNo === "..." ? (
                 <button
                   key={pageNo}
-                  className={`border border-solid border-blue-500 hover:bg-[#0d6efd] hover:text-white transition-all px-3 py-2 rounded-full ${
+                  className={`border border-solid border-blue-500 hover:bg-[#0d6efd] hover:text-white transition-all px-3 py-1 rounded-full ${
                     props.pageNumber === pageNo ? "selectPage" : ""
                   } `}
                   // onClick={() => {
@@ -98,7 +98,7 @@ export default function Pagination(props) {
               ) : (
                 <button
                   key={pageNo}
-                  className={`border border-solid border-blue-500 hover:bg-[#0d6efd] hover:text-white transition-all px-3 py-2 rounded-full ${
+                  className={`border border-solid border-blue-500 hover:bg-[#0d6efd] hover:text-white transition-all px-3 py-1 rounded-full ${
                     props.pageNumber === pageNo ? "selectPage" : ""
                   } `}
                   onClick={() => {
@@ -112,7 +112,7 @@ export default function Pagination(props) {
           </div>
 
           <button
-            className="border border-solid border-blue-500 m-2 px-3 py-2 rounded-full text-[#0d6efd] hover:text-white hover:bg-[#0d6efd]  transition-all"
+            className="border border-solid border-blue-500 m-2 px-3 py-1 rounded-full text-[#0d6efd] hover:text-white hover:bg-[#0d6efd]  transition-all"
             disabled={
               props.page.totalPages === props.pageNumber ||
               props.page["totaPages"] === props.pageNumber

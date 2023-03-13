@@ -23,6 +23,10 @@ export default function DefaultLayout({ children }) {
 
   useEffect(() => {
     if (typeof window != undefined) {
+      if (innerWidth <= 640) {
+        setShowNav(false);
+        setIsMobile(true);
+      }
       addEventListener("resize", handleSize);
     }
     return () => {

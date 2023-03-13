@@ -3,7 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { Table } from "antd";
 
-import Pagination from "./pagination";
+import Pagination from "../pagination";
+import "./table.css";
 
 function TableElement(props) {
   const { columns, data, rowSelection, onRow, width } = props;
@@ -18,18 +19,6 @@ function TableElement(props) {
   const getData = (current, pageSize) => {
     return props.data;
   };
-
-  function itemRender(current, type, originalElement) {
-    if (type === "prev") {
-      return (
-        <input type="button" className="ant_pagin_prev" value="Previous" />
-      );
-    }
-    if (type === "next") {
-      return <input type="button" className="ant_pagin_prev" value="Next" />;
-    }
-    return originalElement;
-  }
 
   return (
     <React.Fragment>

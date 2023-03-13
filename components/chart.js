@@ -1,4 +1,6 @@
-import { useEffect } from "react";
+"use client";
+
+import { useEffect, useState } from "react";
 import Chart from "chart.js";
 
 export default function CardLineChart(props) {
@@ -66,10 +68,10 @@ export default function CardLineChart(props) {
     var config = {
       type: "line",
       data: {
-        labels: labels,
+        labels,
         datasets: [
           {
-            label: "Transaction Amount",
+            label: "Max Withdraw",
             backgroundColor: "#3182ce",
             borderColor: "#3182ce",
             data: chartData,
@@ -91,7 +93,7 @@ export default function CardLineChart(props) {
           },
           align: "end",
           position: "bottom",
-          display: "none",
+          display: false,
         },
         tooltips: {
           mode: "index",
@@ -151,7 +153,7 @@ export default function CardLineChart(props) {
     };
     var ctx = document.getElementById("line-chart").getContext("2d");
     window.myLine = new Chart(ctx, config);
-  }, []);
+  }, [chartData]);
 
   return (
     <>
